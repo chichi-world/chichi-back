@@ -1,0 +1,46 @@
+# Node.js 관련 파일들
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 환경 변수 파일
+.env
+
+# 로그 파일
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+log/
+*.log
+*.log.*
+
+# 데이터베이스 파일
+*.sqlite
+*.sqlite3
+
+# 운영 시스템 파일
+.DS_Store
+Thumbs.db
+
+# Editor 관련 파일
+.vscode/
+.idea/
+*.swp
+
+# 프로덕션 빌드 폴더
+build/
+dist/
+
+# Jest 테스트 파일
+coverage/
+
+# 환경 설정 파일 (운영 환경별로 나뉘는 경우)
+config/*.local.js
+
+# 기타 OS나 편집기에서 생성된 파일들
+*.pid
+*.seed
+*.pid.lock
