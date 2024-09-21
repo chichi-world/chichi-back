@@ -10,6 +10,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const app = express();
 
 // 미들웨어 설정
+// 로그 설정
 const loggerMode = process.env.NODE_ENV === "production" ? "combined" : "dev"; // 환경에 따라 로그 레벨 설정
 app.use(morgan(loggerMode));
 
