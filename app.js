@@ -25,7 +25,7 @@ app.use("/api/reviews", reviewRoutes);
 
 // 404 에러 처리
 app.use((req, res, next) => {
-  const err = new Error("Not Found");
+  const err = new Error("Not Foundㅗ");
   err.status = 404;
   next(err);
 });
