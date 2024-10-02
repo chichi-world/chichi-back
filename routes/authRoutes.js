@@ -9,11 +9,42 @@ router.post("/register", (req, res) => {
 });
 
 // 예시: 로그인 라우트
-router.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  // 여기에 로그인 처리 로직을 작성
-  res.json({ message: "User logged in successfully" });
-});
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // 유저가 존재하는지 확인
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    // 비밀번호 확인
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    // 마지막 접속 기록 갱신
+    user.lastLogin = new Date();
+    await user.save();
+
+    // JWT 생성 (예시)
+    const token = jwt.sign(
+      { id: user.id, nickname: user.nickname },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    // 토큰 반환
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 module.exports = router;
 // const express = require('express');

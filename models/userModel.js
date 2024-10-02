@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const User = sequelize.define(
   "User",
   {
-    username: {
+    nickname: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -23,10 +23,19 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    signupDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW, // 가입 날짜, 기본값은 현재 시간
+    },
+    lastLogin: {
+      type: DataTypes.DATE,
+      allowNull: true, // 마지막 접속 날짜
+    },
   },
   {
-    timestamps: true,
-    tableName: "users",
+    timestamps: true, // createdAt 및 updatedAt 필드를 자동으로 생성
+    tableName: "users", // 테이블 이름 설정
   }
 );
 
