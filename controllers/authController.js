@@ -2,10 +2,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const User = require("../models/userModel"); // 유저 모델 가져오기
-
 // 회원가입
 const register = async (req, res) => {
   const { email, password, nickname } = req.body;
