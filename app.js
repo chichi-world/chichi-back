@@ -10,7 +10,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const app = express();
 
 // 미들웨어 설정
-// 로그 설정//s
+// 로그 설정
 const loggerMode = process.env.NODE_ENV === "production" ? "combined" : "dev"; // 환경에 따라 로그 레벨 설정
 app.use(morgan(loggerMode));
 
@@ -25,7 +25,7 @@ app.use("/api/reviews", reviewRoutes);
 
 // 404 에러 처리
 app.use((req, res, next) => {
-  const err = new Error("Not Foundㅗㅗ");
+  const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
