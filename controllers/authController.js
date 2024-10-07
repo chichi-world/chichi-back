@@ -69,6 +69,10 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+// 로그아웃
+const logout = (req, res) => {
+  // 클라이언트 측에서 토큰을 삭제하라는 응답 전송
+  res.status(200).json({ message: "User logged out successfully" });
+};
 
-module.exports = { login };
+module.exports = { register, login, logout };
