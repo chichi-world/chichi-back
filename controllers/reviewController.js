@@ -1,8 +1,9 @@
 const Review = require("../models/reviewModel");
+const User = require("../models/userModel"); // 작성자 검색을 위해 필요
 
-// 모든 리뷰 가져오기 (최신순, 별점순 정렬 추가)
+// 모든 리뷰 가져오기 (최신순, 별점순 정렬, 검색 추가)
 const getAllReviews = async (req, res) => {
-  const { orderBy } = req.query; // 쿼리 파라미터로 정렬 기준을 받음 ('latest' 또는 'rating')
+  const { orderBy, search } = req.query; // 쿼리 파라미터로 정렬 기준 및 검색어를 받음
 
   try {
     let order = [["createdAt", "DESC"]]; // 기본값은 최신순
@@ -10,7 +11,24 @@ const getAllReviews = async (req, res) => {
       order = [["rating", "DESC"]]; // 별점 높은 순
     }
 
-    const reviews = await Review.findAll({ order });
+    // 검색 조건 추가
+    let whereCondition = {};
+    if (search) {
+      whereCondition = {
+        content: { [Op.like]: `%${search}%` }, // 리뷰 내용에서 검색
+      };
+    }
+
+    const reviews = await Review.findAll({
+      where: whereCondition,
+      include: [
+        {
+          model: User, // 작성자 정보 포함
+          attributes: ["nickname"],
+        },
+      ],
+      order,
+    });
     res.status(200).json(reviews);
   } catch (err) {
     console.error(err);
