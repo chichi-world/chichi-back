@@ -2,6 +2,12 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 
+// 공통 에러 처리 함수
+const handleError = (res, err) => {
+  console.error(err);
+  res.status(500).json({ message: "Server error" });
+};
+
 // 회원가입
 const register = async (req, res) => {
   const { email, password, nickname } = req.body;
@@ -26,8 +32,7 @@ const register = async (req, res) => {
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    handleError(res, err);
   }
 };
 
@@ -64,15 +69,18 @@ const login = async (req, res) => {
     // 토큰 반환
     res.json({ token });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    handleError(res, err);
   }
 };
 
 // 로그아웃
 const logout = (req, res) => {
-  // 클라이언트 측에서 토큰을 삭제하라는 응답 전송
-  res.status(200).json({ message: "User logged out successfully" });
+  try {
+    // 클라이언트 측에서 토큰을 삭제하라는 응답 전송
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (err) {
+    handleError(res, err);
+  }
 };
 
 module.exports = { register, login, logout };
