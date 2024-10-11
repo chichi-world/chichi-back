@@ -1,33 +1,43 @@
-const mongoose = require("mongoose");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
 
-const reviewSchema = new mongoose.Schema(
+// 리뷰 모델 정의
+const Review = sequelize.define(
+  "Review",
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users", // 참조할 테이블 이름
+        key: "id",
+      },
     },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true,
+    productId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Products", // 참조할 테이블 이름
+        key: "id",
+      },
     },
     rating: {
-      type: Number,
-      required: true,
-      min: 1,
-      max: 5,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+        max: 5,
+      },
     },
     comment: {
-      type: String,
-      required: true,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
     timestamps: true, // 자동으로 createdAt, updatedAt 필드를 추가합니다.
+    tableName: "reviews", // 테이블 이름 설정
   }
 );
-
-const Review = mongoose.model("Review", reviewSchema);
 
 module.exports = Review;
