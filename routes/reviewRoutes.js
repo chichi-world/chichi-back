@@ -1,24 +1,22 @@
 const express = require("express");
+const {
+  getAllReviews,
+  getReviewById,
+  createReview,
+  deleteReview,
+} = require("../controllers/reviewController"); // 리뷰 컨트롤러 가져오기
 const router = express.Router();
 
-// 예시: 모든 리뷰 가져오기
-router.get("/", (req, res) => {
-  // 리뷰 목록 가져오는 로직을 작성
-  res.json({ message: "All reviews fetched successfully" });
-});
+// 모든 리뷰 가져오기 (GET /api/reviews)
+router.get("/", getAllReviews);
 
-// 예시: 특정 리뷰 가져오기
-router.get("/:id", (req, res) => {
-  const reviewId = req.params.id;
-  // 특정 리뷰 가져오는 로직을 작성
-  res.json({ message: `Review with ID ${reviewId} fetched successfully` });
-});
+// 특정 리뷰 가져오기 (GET /api/reviews/:id)
+router.get("/:id", getReviewById);
 
-// 예시: 새로운 리뷰 작성
-router.post("/", (req, res) => {
-  const { user, content } = req.body;
-  // 새로운 리뷰 작성 로직을 작성
-  res.json({ message: "Review added successfully" });
-});
+// 새로운 리뷰 작성 (POST /api/reviews)
+router.post("/", createReview);
+
+// 리뷰 삭제 (DELETE /api/reviews/:id)
+router.delete("/:id", deleteReview);
 
 module.exports = router;
